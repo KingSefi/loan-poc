@@ -1,0 +1,63 @@
+<section class="hero">
+  <div class="hero-text">
+    <h1>Welcome to {{ brandName() }}</h1>
+    <p class="subtitle">Your total net worth</p>
+    <p class="net-worth">{{ netWorth() | currency }}</p>
+  </div>
+</section>
+
+<h2>Quick Actions</h2>
+<section class="actions-grid">
+  @for (action of quickActions(); track action.label) {
+    <mat-card class="action-card">
+      <mat-card-content>
+        <mat-icon class="action-icon">{{ action.icon }}</mat-icon>
+        <strong>{{ action.label }}</strong>
+        <span class="action-desc">{{ action.description }}</span>
+      </mat-card-content>
+    </mat-card>
+  }
+</section>
+
+<mat-divider></mat-divider>
+
+<h2>Featured Offers</h2>
+<section class="promos-grid">
+  @for (promo of promoOffers(); track promo.title) {
+    <mat-card class="promo-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>{{ promo.icon }}</mat-icon>
+        <mat-card-title>{{ promo.title }}</mat-card-title>
+        <mat-card-subtitle>{{ promo.subtitle }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <span class="highlight">{{ promo.highlight }}</span>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button color="primary">{{ promo.cta }}</button>
+      </mat-card-actions>
+    </mat-card>
+  }
+</section>
+
+<mat-divider></mat-divider>
+
+<h2>Apply for a Personal Loan</h2>
+<mat-card>
+  <mat-card-content>
+    <lib-default-stepper [steps]="loanSteps()" [linear]="true">
+      <ng-template>
+        <p>Full name, date of birth, address, phone number, and email.</p>
+      </ng-template>
+      <ng-template>
+        <p>Employer name, position, annual gross salary, and years at current job.</p>
+      </ng-template>
+      <ng-template>
+        <p>Desired amount ($1,000 - $50,000), term (12-60 months), and purpose.</p>
+      </ng-template>
+      <ng-template>
+        <p>Verify all details, accept terms & conditions, and submit.</p>
+      </ng-template>
+    </lib-default-stepper>
+  </mat-card-content>
+</mat-card>

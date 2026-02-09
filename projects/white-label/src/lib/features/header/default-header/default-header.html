@@ -1,0 +1,13 @@
+<mat-toolbar color="primary">
+  <button
+    mat-icon-button
+    [attr.aria-expanded]="menuOpen()"
+    aria-label="Toggle navigation menu"
+    (click)="toggleMenu()"
+  >
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span class="brand-name">{{ displayTitle() }}</span>
+  <span class="spacer"></span>
+  <lib-theme-switch />
+</mat-toolbar>

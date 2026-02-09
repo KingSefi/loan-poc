@@ -1,0 +1,30 @@
+@use '@angular/material' as mat;
+
+$green-theme: mat.define-theme((
+  color: (
+    theme-type: light,
+    primary: mat.$green-palette,
+  ),
+));
+
+$green-dark-theme: mat.define-theme((
+  color: (
+    theme-type: dark,
+    primary: mat.$green-palette,
+  ),
+));
+
+html {
+  @include mat.all-component-themes($green-theme);
+  color-scheme: light;
+}
+
+html.dark-theme {
+  @include mat.all-component-colors($green-dark-theme);
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

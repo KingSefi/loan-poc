@@ -1,0 +1,32 @@
+<div class="topnav-layout">
+  <lib-default-header />
+
+  <mat-toolbar class="mega-nav">
+    @for (group of menuGroups; track group.label) {
+      @if (group.children?.length) {
+        <button mat-button [matMenuTriggerFor]="menu">
+          <mat-icon>{{ group.icon }}</mat-icon>
+          {{ group.label }}
+          <mat-icon>arrow_drop_down</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          @for (child of group.children; track child.label) {
+            <button mat-menu-item [routerLink]="child.route">
+              <mat-icon>{{ child.icon }}</mat-icon>
+              {{ child.label }}
+            </button>
+          }
+        </mat-menu>
+      } @else {
+        <a mat-button [routerLink]="group.route" routerLinkActive="active-link">
+          <mat-icon>{{ group.icon }}</mat-icon>
+          {{ group.label }}
+        </a>
+      }
+    }
+  </mat-toolbar>
+
+  <main class="content">
+    <router-outlet />
+  </main>
+</div>

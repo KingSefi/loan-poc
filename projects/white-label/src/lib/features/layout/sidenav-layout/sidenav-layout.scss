@@ -1,0 +1,30 @@
+.sidenav-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.layout-body {
+  flex: 1;
+}
+
+mat-sidenav {
+  width: 240px;
+}
+
+.content {
+  padding: 1.5rem;
+}
+
+.active-link {
+  font-weight: 500;
+}
+
+.mdc-list-item {
+  align-items: center;
+  gap: .5rem;
+}
+
+mat-divider {
+  margin: 1rem;
+}

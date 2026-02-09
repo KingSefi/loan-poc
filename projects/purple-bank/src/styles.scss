@@ -1,0 +1,30 @@
+@use '@angular/material' as mat;
+
+$purple-theme: mat.define-theme((
+  color: (
+    theme-type: dark,
+    primary: mat.$violet-palette,
+  ),
+));
+
+$purple-light-theme: mat.define-theme((
+  color: (
+    theme-type: light,
+    primary: mat.$violet-palette,
+  ),
+));
+
+html {
+  @include mat.all-component-themes($purple-theme);
+  color-scheme: dark;
+}
+
+html.light-theme {
+  @include mat.all-component-colors($purple-light-theme);
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

@@ -1,0 +1,22 @@
+<div class="sidenav-layout">
+  <lib-default-header />
+  <mat-sidenav-container class="layout-body">
+    <mat-sidenav mode="side" opened>
+      <mat-nav-list>
+        @for (section of sections; track section.header; let first = $first) {
+          @if (!first) { <mat-divider /> }
+          <div mat-subheader>{{ section.header }}</div>
+          @for (item of section.items; track item.label) {
+            <a mat-list-item [routerLink]="item.route" routerLinkActive="active-link">
+              <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+              <span>{{ item.label }}</span>
+            </a>
+          }
+        }
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content class="content">
+      <router-outlet />
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

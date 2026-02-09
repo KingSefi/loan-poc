@@ -1,0 +1,65 @@
+<h1>Dashboard</h1>
+<p class="subtitle">Welcome back! Here's your financial overview.</p>
+
+<section class="accounts-grid">
+  @for (account of accounts(); track account.label) {
+    <mat-card>
+      <mat-card-header>
+        <mat-icon mat-card-avatar>{{ account.icon }}</mat-icon>
+        <mat-card-title>{{ account.balance | currency }}</mat-card-title>
+        <mat-card-subtitle>{{ account.label }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <span class="trend" [class.positive]="!account.trend.startsWith('-')" [class.negative]="account.trend.startsWith('-')">
+          {{ account.trend }} this month
+        </span>
+      </mat-card-content>
+    </mat-card>
+  }
+</section>
+
+<div class="two-column">
+  <mat-card class="transactions-card">
+    <mat-card-header>
+      <mat-card-title>Recent Transactions</mat-card-title>
+      <mat-card-subtitle>Last 7 days</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      @for (tx of recentTransactions(); track tx.description; let last = $last) {
+        <div class="tx-row">
+          <div class="tx-info">
+            <span class="tx-desc">{{ tx.description }}</span>
+            <span class="tx-meta">{{ tx.date | date:'MMM d' }} <mat-chip>{{ tx.category }}</mat-chip></span>
+          </div>
+          <span class="tx-amount" [class.credit]="tx.type === 'credit'" [class.debit]="tx.type === 'debit'">
+            {{ tx.amount | currency }}
+          </span>
+        </div>
+        @if (!last) { <mat-divider /> }
+      }
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="stepper-card">
+    <mat-card-header>
+      <mat-card-title>Apply for a Loan</mat-card-title>
+      <mat-card-subtitle>Quick application in 4 steps</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <lib-default-stepper [steps]="loanSteps()" [linear]="true" orientation="vertical">
+        <ng-template>
+          <p>Full name, date of birth, address, phone number, and email.</p>
+        </ng-template>
+        <ng-template>
+          <p>Employer name, position, annual gross salary, and years at current job.</p>
+        </ng-template>
+        <ng-template>
+          <p>Desired amount ($1,000 - $50,000), term (12-60 months), and purpose.</p>
+        </ng-template>
+        <ng-template>
+          <p>Verify all details, accept terms & conditions, and submit.</p>
+        </ng-template>
+      </lib-default-stepper>
+    </mat-card-content>
+  </mat-card>
+</div>
