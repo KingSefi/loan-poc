@@ -4,7 +4,9 @@
     <mat-sidenav mode="side" opened>
       <mat-nav-list>
         @for (section of sections; track section.header; let first = $first) {
-          @if (!first) { <mat-divider /> }
+          @if (!first) {
+            <mat-divider />
+          }
           <div mat-subheader>{{ section.header }}</div>
           @for (item of section.items; track item.label) {
             <a mat-list-item [routerLink]="item.route" routerLinkActive="active-link">

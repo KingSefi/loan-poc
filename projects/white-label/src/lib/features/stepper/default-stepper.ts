@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -6,10 +7,14 @@ import {
   model,
   TemplateRef,
 } from '@angular/core';
-import { NgTemplateOutlet } from '@angular/common';
-import { MatStepper, MatStep, MatStepLabel } from '@angular/material/stepper';
-import { MatStepperNext, MatStepperPrevious } from '@angular/material/stepper';
 import { MatButton } from '@angular/material/button';
+import {
+  MatStep,
+  MatStepLabel,
+  MatStepper,
+  MatStepperNext,
+  MatStepperPrevious,
+} from '@angular/material/stepper';
 
 import { StepDefinition } from './step-definition';
 

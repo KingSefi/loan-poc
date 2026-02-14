@@ -4,14 +4,11 @@ export const routes: Routes = [
   {
     path: 'green',
     loadComponent: () =>
-      import('./wrappers/green-wrapper/green-wrapper.component').then(
-        (m) => m.GreenWrapper,
-      ),
+      import('./wrappers/green-wrapper/green-wrapper.component').then((m) => m.GreenWrapper),
     children: [
       {
         path: 'dashboard',
-        loadComponent: () =>
-          import('white-label').then((m) => m.DefaultDashboard),
+        loadComponent: () => import('white-label').then((m) => m.DefaultDashboard),
       },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     ],
@@ -19,14 +16,11 @@ export const routes: Routes = [
   {
     path: 'purple',
     loadComponent: () =>
-      import('./wrappers/purple-wrapper/purple-wrapper.component').then(
-        (m) => m.PurpleWrapper,
-      ),
+      import('./wrappers/purple-wrapper/purple-wrapper.component').then((m) => m.PurpleWrapper),
     children: [
       {
         path: 'home',
-        loadComponent: () =>
-          import('white-label').then((m) => m.DefaultHomePage),
+        loadComponent: () => import('white-label').then((m) => m.DefaultHomePage),
       },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
     ],

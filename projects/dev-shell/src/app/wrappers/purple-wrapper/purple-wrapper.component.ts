@@ -5,7 +5,8 @@ import { DefaultTopNavLayout, ThemeService, WhiteLabelRoot } from 'white-label';
 const TOPNAV_MENUS: readonly MenuGroup[] = [
   { icon: 'home', label: 'Home', route: 'home' },
   {
-    icon: 'account_balance', label: 'Accounts',
+    icon: 'account_balance',
+    label: 'Accounts',
     children: [
       { icon: 'account_balance_wallet', label: 'Checking' },
       { icon: 'savings', label: 'Savings' },
@@ -13,7 +14,8 @@ const TOPNAV_MENUS: readonly MenuGroup[] = [
     ],
   },
   {
-    icon: 'payment', label: 'Payments',
+    icon: 'payment',
+    label: 'Payments',
     children: [
       { icon: 'swap_horiz', label: 'Transfer Funds' },
       { icon: 'send', label: 'Send Money' },
@@ -21,7 +23,8 @@ const TOPNAV_MENUS: readonly MenuGroup[] = [
     ],
   },
   {
-    icon: 'request_quote', label: 'Loans',
+    icon: 'request_quote',
+    label: 'Loans',
     children: [
       { icon: 'house', label: 'Mortgage' },
       { icon: 'directions_car', label: 'Auto Loan' },
@@ -29,7 +32,8 @@ const TOPNAV_MENUS: readonly MenuGroup[] = [
     ],
   },
   {
-    icon: 'help_outline', label: 'Support',
+    icon: 'help_outline',
+    label: 'Support',
     children: [
       { icon: 'chat', label: 'Live Chat' },
       { icon: 'phone', label: 'Call Us' },

@@ -1,9 +1,16 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
-import { MatCard, MatCardContent, MatCardHeader, MatCardTitle, MatCardSubtitle, MatCardActions } from '@angular/material/card';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { MatButton } from '@angular/material/button';
-import { MatIcon } from '@angular/material/icon';
+import {
+  MatCard,
+  MatCardActions,
+  MatCardContent,
+  MatCardHeader,
+  MatCardSubtitle,
+  MatCardTitle,
+} from '@angular/material/card';
 import { MatDivider } from '@angular/material/divider';
+import { MatIcon } from '@angular/material/icon';
 import { BRAND_CONFIG } from 'core';
 
 import { DefaultStepper } from '../stepper/default-stepper';
@@ -27,8 +34,15 @@ interface PromoOffer {
   selector: 'lib-default-home-page',
   imports: [
     CurrencyPipe,
-    MatCard, MatCardContent, MatCardHeader, MatCardTitle, MatCardSubtitle, MatCardActions,
-    MatButton, MatIcon, MatDivider,
+    MatCard,
+    MatCardContent,
+    MatCardHeader,
+    MatCardTitle,
+    MatCardSubtitle,
+    MatCardActions,
+    MatButton,
+    MatIcon,
+    MatDivider,
     DefaultStepper,
   ],
   templateUrl: './default-home-page.html',
@@ -51,9 +65,27 @@ export class DefaultHomePage {
   ]);
 
   readonly promoOffers = signal<PromoOffer[]>([
-    { title: 'Premium Savings', subtitle: 'Limited time offer', highlight: '4.75% APY', icon: 'star', cta: 'Open Account' },
-    { title: 'Home Mortgage', subtitle: 'Rates starting at', highlight: '5.99% APR', icon: 'house', cta: 'Get Pre-Approved' },
-    { title: 'Travel Rewards Card', subtitle: 'Earn on every purchase', highlight: '3X Points', icon: 'flight', cta: 'Apply Now' },
+    {
+      title: 'Premium Savings',
+      subtitle: 'Limited time offer',
+      highlight: '4.75% APY',
+      icon: 'star',
+      cta: 'Open Account',
+    },
+    {
+      title: 'Home Mortgage',
+      subtitle: 'Rates starting at',
+      highlight: '5.99% APR',
+      icon: 'house',
+      cta: 'Get Pre-Approved',
+    },
+    {
+      title: 'Travel Rewards Card',
+      subtitle: 'Earn on every purchase',
+      highlight: '3X Points',
+      icon: 'flight',
+      cta: 'Apply Now',
+    },
   ]);
 
   readonly loanSteps = signal<StepDefinition[]>([

@@ -10,7 +10,11 @@
         <mat-card-subtitle>{{ account.label }}</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
-        <span class="trend" [class.positive]="!account.trend.startsWith('-')" [class.negative]="account.trend.startsWith('-')">
+        <span
+          class="trend"
+          [class.positive]="!account.trend.startsWith('-')"
+          [class.negative]="account.trend.startsWith('-')"
+        >
           {{ account.trend }} this month
         </span>
       </mat-card-content>
@@ -29,13 +33,21 @@
         <div class="tx-row">
           <div class="tx-info">
             <span class="tx-desc">{{ tx.description }}</span>
-            <span class="tx-meta">{{ tx.date | date:'MMM d' }} <mat-chip>{{ tx.category }}</mat-chip></span>
+            <span class="tx-meta"
+              >{{ tx.date | date: 'MMM d' }} <mat-chip>{{ tx.category }}</mat-chip></span
+            >
           </div>
-          <span class="tx-amount" [class.credit]="tx.type === 'credit'" [class.debit]="tx.type === 'debit'">
+          <span
+            class="tx-amount"
+            [class.credit]="tx.type === 'credit'"
+            [class.debit]="tx.type === 'debit'"
+          >
             {{ tx.amount | currency }}
           </span>
         </div>
-        @if (!last) { <mat-divider /> }
+        @if (!last) {
+          <mat-divider />
+        }
       }
     </mat-card-content>
   </mat-card>

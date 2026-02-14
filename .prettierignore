@@ -1,0 +1,4 @@
+# Biome handles TS/JS formatting
+**/*.ts
+**/*.js
+**/*.json

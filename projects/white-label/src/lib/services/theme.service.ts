@@ -1,4 +1,4 @@
-import { computed, effect, inject, Injectable, signal } from '@angular/core';
+import { computed, effect, Injectable, inject, signal } from '@angular/core';
 import { BRAND_CONFIG } from 'core';
 
 @Injectable({ providedIn: 'root' })
@@ -10,7 +10,7 @@ export class ThemeService {
   readonly brandClass = signal<string | null>(null);
 
   constructor() {
-    effect((onCleanup) => {
+    effect(() => {
       const dark = this.isDark();
       const doc = document.documentElement;
       doc.classList.toggle('dark-theme', dark);

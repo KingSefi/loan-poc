@@ -1,5 +1,5 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
+import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter } from '@angular/router';
 import { AUTH_CONFIG, BRAND_CONFIG, MenuGroup, ROOT_LAYOUT_TOKEN, TOPNAV_CONFIG } from 'core';
@@ -10,7 +10,8 @@ import { routes } from './app.routes';
 const TOPNAV_MENUS: readonly MenuGroup[] = [
   { icon: 'home', label: 'Home', route: '/home' },
   {
-    icon: 'account_balance', label: 'Accounts',
+    icon: 'account_balance',
+    label: 'Accounts',
     children: [
       { icon: 'account_balance_wallet', label: 'Checking' },
       { icon: 'savings', label: 'Savings' },
@@ -19,7 +20,8 @@ const TOPNAV_MENUS: readonly MenuGroup[] = [
     ],
   },
   {
-    icon: 'payment', label: 'Payments',
+    icon: 'payment',
+    label: 'Payments',
     children: [
       { icon: 'swap_horiz', label: 'Transfer Funds' },
       { icon: 'send', label: 'Send Money' },
@@ -28,7 +30,8 @@ const TOPNAV_MENUS: readonly MenuGroup[] = [
     ],
   },
   {
-    icon: 'trending_up', label: 'Invest',
+    icon: 'trending_up',
+    label: 'Invest',
     children: [
       { icon: 'show_chart', label: 'Portfolio' },
       { icon: 'candlestick_chart', label: 'Trading' },
@@ -37,7 +40,8 @@ const TOPNAV_MENUS: readonly MenuGroup[] = [
     ],
   },
   {
-    icon: 'request_quote', label: 'Loans',
+    icon: 'request_quote',
+    label: 'Loans',
     children: [
       { icon: 'house', label: 'Mortgage' },
       { icon: 'directions_car', label: 'Auto Loan' },
@@ -46,7 +50,8 @@ const TOPNAV_MENUS: readonly MenuGroup[] = [
     ],
   },
   {
-    icon: 'help_outline', label: 'Support',
+    icon: 'help_outline',
+    label: 'Support',
     children: [
       { icon: 'chat', label: 'Live Chat' },
       { icon: 'phone', label: 'Call Us' },

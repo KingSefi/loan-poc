@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatNavList, MatListItem, MatListSubheaderCssMatStyler } from '@angular/material/list';
-import { MatIcon } from '@angular/material/icon';
 import { MatDivider } from '@angular/material/divider';
+import { MatIcon } from '@angular/material/icon';
+import { MatListItem, MatListSubheaderCssMatStyler, MatNavList } from '@angular/material/list';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { SIDENAV_CONFIG } from 'core';
 
 import { DefaultHeader } from '../../header/default-header/default-header';
@@ -11,9 +11,16 @@ import { DefaultHeader } from '../../header/default-header/default-header';
 @Component({
   selector: 'lib-sidenav-layout',
   imports: [
-    DefaultHeader, RouterOutlet, RouterLink, RouterLinkActive,
-    MatSidenavModule, MatNavList, MatListItem, MatListSubheaderCssMatStyler,
-    MatIcon, MatDivider,
+    DefaultHeader,
+    RouterOutlet,
+    RouterLink,
+    RouterLinkActive,
+    MatSidenavModule,
+    MatNavList,
+    MatListItem,
+    MatListSubheaderCssMatStyler,
+    MatIcon,
+    MatDivider,
   ],
   templateUrl: './sidenav-layout.html',
   styleUrl: './sidenav-layout.scss',
