@@ -1,0 +1,195 @@
+// ─── Keyframes ───────────────────────────────────────────────
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+  0%   { opacity: 0; transform: scale(0); }
+  70%  { transform: scale(1.05); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.03); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { transform: scale(0.8); opacity: 0.4; }
+  50%      { transform: scale(1.2); opacity: 0.8; }
+}
+
+// ─── Base ────────────────────────────────────────────────────
+:host {
+  display: block;
+}
+
+// ─── Page Entry (staggered fade-in) ─────────────────────────
+h1 {
+  margin-top: 0;
+  animation: fadeInUp 0.5s ease-out both;
+}
+
+.subtitle {
+  margin-bottom: 1.5rem;
+  opacity: 0.7;
+  animation: fadeInUp 0.5s ease-out 0.1s both;
+}
+
+lib-default-stepper {
+  animation: fadeInUp 0.5s ease-out 0.2s both;
+}
+
+// ─── Form Fields (staggered entrance) ───────────────────────
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 1rem;
+
+  .full-width {
+    grid-column: 1 / -1;
+  }
+
+  > * {
+    animation: fadeInUp 0.4s ease-out both;
+
+    @for $i from 1 through 8 {
+      &:nth-child(#{$i}) {
+        animation-delay: #{$i * 0.05}s;
+      }
+    }
+  }
+}
+
+// ─── Slider Field ───────────────────────────────────────────
+.slider-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+
+  label {
+    font-weight: 500;
+  }
+}
+
+// ─── Review Section ─────────────────────────────────────────
+.review-section {
+  h3 {
+    margin: 1rem 0 0.5rem;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  mat-divider {
+    margin: 1rem 0;
+  }
+
+  mat-checkbox {
+    margin: 1rem 0;
+    display: block;
+  }
+}
+
+.review-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem 1rem;
+}
+
+.review-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.review-label {
+  font-size: 0.8rem;
+  opacity: 0.6;
+}
+
+// ─── Submit Button Pulse ────────────────────────────────────
+.submit-actions {
+  margin-top: 1rem;
+
+  button[mat-flat-button] {
+    animation: pulse 2s ease-in-out infinite;
+
+    &[disabled] {
+      animation: none;
+    }
+  }
+}
+
+// ─── Success Card Celebration ───────────────────────────────
+.success-card {
+  max-width: 480px;
+  margin: 2rem auto;
+  text-align: center;
+  animation: scaleIn 0.5s ease-out both;
+
+  mat-card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+
+    h2 {
+      animation: fadeInUp 0.4s ease-out 0.25s both;
+    }
+
+    p {
+      animation: fadeInUp 0.4s ease-out 0.35s both;
+    }
+
+    button {
+      animation: fadeInUp 0.4s ease-out 0.55s both;
+    }
+  }
+}
+
+.success-icon {
+  font-size: 4rem;
+  width: 64px;
+  height: 64px;
+  color: #2e7d32;
+  position: relative;
+  animation: scaleIn 0.6s ease-out 0.1s both;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: -12px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(46, 125, 50, 0.25), transparent 70%);
+    animation: pulseGlow 2s ease-in-out infinite;
+    z-index: -1;
+  }
+}
+
+.ref-number {
+  font-weight: 600;
+  font-size: 1.1rem;
+  opacity: 0.8;
+  background: linear-gradient(90deg, currentColor 40%, rgba(255, 255, 255, 0.6) 50%, currentColor 60%);
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 3s linear infinite;
+}
+
+// ─── Reduced Motion ─────────────────────────────────────────
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

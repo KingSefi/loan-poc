@@ -11,10 +11,8 @@ import {
 } from '@angular/material/card';
 import { MatDivider } from '@angular/material/divider';
 import { MatIcon } from '@angular/material/icon';
+import { RouterLink } from '@angular/router';
 import { BRAND_CONFIG } from 'core';
-
-import { DefaultStepper } from '../stepper/default-stepper';
-import { StepDefinition } from '../stepper/step-definition';
 
 interface QuickAction {
   icon: string;
@@ -43,7 +41,7 @@ interface PromoOffer {
     MatButton,
     MatIcon,
     MatDivider,
-    DefaultStepper,
+    RouterLink,
   ],
   templateUrl: './default-home-page.html',
   styleUrl: './default-home-page.scss',
@@ -86,12 +84,5 @@ export class DefaultHomePage {
       icon: 'flight',
       cta: 'Apply Now',
     },
-  ]);
-
-  readonly loanSteps = signal<StepDefinition[]>([
-    { label: 'Personal Info' },
-    { label: 'Income Details' },
-    { label: 'Loan Amount' },
-    { label: 'Review & Submit' },
   ]);
 }

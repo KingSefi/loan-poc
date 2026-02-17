@@ -1,12 +1,13 @@
+import type { EnvironmentProviders, Provider } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { provideRouter } from '@angular/router';
 import { BRAND_CONFIG } from 'core';
 
 import { DefaultHomePage } from './default-home-page';
 
 describe('DefaultHomePage', () => {
   async function setup(brandName?: string): Promise<ComponentFixture<DefaultHomePage>> {
-    const providers: any[] = [provideAnimationsAsync()];
+    const providers: (Provider | EnvironmentProviders)[] = [provideRouter([])];
     if (brandName) {
       providers.push({
         provide: BRAND_CONFIG,
@@ -59,9 +60,12 @@ describe('DefaultHomePage', () => {
     expect(netWorth.textContent).toContain('$184,620.45');
   });
 
-  it('renders loan stepper with 4 steps', async () => {
+  it('renders Start Application link', async () => {
     const fixture = await setup();
-    const stepHeaders = fixture.nativeElement.querySelectorAll('.mat-step-header');
-    expect(stepHeaders.length).toBe(4);
+    const links = fixture.nativeElement.querySelectorAll('a');
+    const startLink = Array.from(links).find((el) =>
+      (el as HTMLElement).textContent?.includes('Start Application'),
+    );
+    expect(startLink).toBeTruthy();
   });
 });

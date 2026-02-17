@@ -1,8 +1,14 @@
 import { provideHttpClient } from '@angular/common/http';
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter } from '@angular/router';
-import { AUTH_CONFIG, BRAND_CONFIG, MenuGroup, ROOT_LAYOUT_TOKEN, TOPNAV_CONFIG } from 'core';
+import {
+  AUTH_CONFIG,
+  BRAND_CONFIG,
+  LOAN_CONFIG,
+  MenuGroup,
+  ROOT_LAYOUT_TOKEN,
+  TOPNAV_CONFIG,
+} from 'core';
 import { DefaultTopNavLayout } from 'white-label';
 
 import { routes } from './app.routes';
@@ -64,7 +70,6 @@ const TOPNAV_MENUS: readonly MenuGroup[] = [
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideAnimationsAsync(),
     provideRouter(routes),
     provideHttpClient(),
     {
@@ -90,6 +95,25 @@ export const appConfig: ApplicationConfig = {
     {
       provide: TOPNAV_CONFIG,
       useValue: TOPNAV_MENUS,
+    },
+    {
+      provide: LOAN_CONFIG,
+      useValue: {
+        minAmount: 5000,
+        maxAmount: 100_000,
+        minTermMonths: 6,
+        maxTermMonths: 84,
+        purposes: [
+          'Home Renovation',
+          'Business Investment',
+          'Debt Consolidation',
+          'Travel',
+          'Wedding',
+          'Other',
+        ],
+        incomeVerification: 'payslip-upload' as const,
+        requiresEmployerVerification: true,
+      },
     },
   ],
 };

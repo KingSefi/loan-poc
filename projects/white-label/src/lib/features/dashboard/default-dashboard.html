@@ -52,26 +52,15 @@
     </mat-card-content>
   </mat-card>
 
-  <mat-card class="stepper-card">
+  <mat-card class="loan-cta-card">
     <mat-card-header>
+      <mat-icon mat-card-avatar>request_quote</mat-icon>
       <mat-card-title>Apply for a Loan</mat-card-title>
-      <mat-card-subtitle>Quick application in 4 steps</mat-card-subtitle>
+      <mat-card-subtitle>Quick application in 4 easy steps</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <lib-default-stepper [steps]="loanSteps()" [linear]="true" orientation="vertical">
-        <ng-template>
-          <p>Full name, date of birth, address, phone number, and email.</p>
-        </ng-template>
-        <ng-template>
-          <p>Employer name, position, annual gross salary, and years at current job.</p>
-        </ng-template>
-        <ng-template>
-          <p>Desired amount ($1,000 - $50,000), term (12-60 months), and purpose.</p>
-        </ng-template>
-        <ng-template>
-          <p>Verify all details, accept terms & conditions, and submit.</p>
-        </ng-template>
-      </lib-default-stepper>
+      <p>Get a personal loan with competitive rates. Complete your application online in minutes.</p>
+      <a mat-flat-button color="primary" routerLink="../loans/apply">Start Application</a>
     </mat-card-content>
   </mat-card>
 </div>

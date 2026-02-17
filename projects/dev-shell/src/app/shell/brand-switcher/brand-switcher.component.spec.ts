@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { provideRouter, Router } from '@angular/router';
 
 import { BrandSwitcher } from './brand-switcher.component';
@@ -11,7 +11,7 @@ describe('BrandSwitcher', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [BrandSwitcher],
-      providers: [provideAnimationsAsync(), provideRouter([])],
+      providers: [provideRouter([])],
     }).compileComponents();
 
     router = TestBed.inject(Router);
@@ -25,7 +25,7 @@ describe('BrandSwitcher', () => {
 
   it('calls router.navigateByUrl on brand change', () => {
     const spy = vi.spyOn(router, 'navigateByUrl');
-    fixture.componentInstance.onBrandChange({ value: '/purple' } as any);
+    fixture.componentInstance.onBrandChange({ value: '/purple' } as MatButtonToggleChange);
     expect(spy).toHaveBeenCalledWith('/purple');
   });
 

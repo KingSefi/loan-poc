@@ -1,16 +1,32 @@
+// ─── Keyframes ───────────────────────────────────────────────
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.03); }
+}
+
+// ─── Base ────────────────────────────────────────────────────
 :host {
   display: block;
 }
 
+// ─── Header ─────────────────────────────────────────────────
 h1 {
-margin-top: 0;
+  margin-top: 0;
+  animation: fadeInUp 0.5s ease-out both;
 }
 
 .subtitle {
   margin-bottom: 1.5rem;
   opacity: 0.7;
+  animation: fadeInUp 0.5s ease-out 0.1s both;
 }
 
+// ─── Account Cards Grid ─────────────────────────────────────
 .accounts-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -23,6 +39,22 @@ margin-top: 0;
     height: 40px;
     line-height: 40px;
   }
+
+  > mat-card {
+    animation: fadeInUp 0.4s ease-out both;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+    }
+
+    @for $i from 1 through 6 {
+      &:nth-child(#{$i}) {
+        animation-delay: #{0.15 + $i * 0.1}s;
+      }
+    }
+  }
 }
 
 .trend {
@@ -33,6 +65,7 @@ margin-top: 0;
   &.negative { color: #c62828; }
 }
 
+// ─── Two-Column Layout ──────────────────────────────────────
 .two-column {
   display: grid;
   grid-template-columns: 1.2fr 1fr;
@@ -40,7 +73,10 @@ margin-top: 0;
   align-items: start;
 }
 
+// ─── Transactions Card ──────────────────────────────────────
 .transactions-card {
+  animation: fadeInUp 0.5s ease-out 0.4s both;
+
   mat-card-content {
     display: flex;
     flex-direction: column;
@@ -52,6 +88,13 @@ margin-top: 0;
   justify-content: space-between;
   align-items: center;
   padding: 0.75rem 0;
+  animation: fadeInUp 0.35s ease-out both;
+
+  @for $i from 1 through 10 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{0.5 + $i * 0.06}s;
+    }
+  }
 }
 
 .tx-info {
@@ -80,6 +123,23 @@ margin-top: 0;
   &.debit { opacity: 0.85; }
 }
 
-.stepper-card mat-card-content {
-  padding-top: 0.5rem;
+// ─── Loan CTA Card ─────────────────────────────────────────
+.loan-cta-card {
+  animation: fadeInUp 0.5s ease-out 0.5s both;
+
+  mat-card-content {
+    padding-top: 0.5rem;
+  }
+
+  a[mat-flat-button] {
+    animation: pulse 2s ease-in-out infinite;
+  }
+}
+
+// ─── Reduced Motion ─────────────────────────────────────────
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

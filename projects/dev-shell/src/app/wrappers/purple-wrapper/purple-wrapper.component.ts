@@ -1,5 +1,12 @@
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
-import { AUTH_CONFIG, BRAND_CONFIG, MenuGroup, ROOT_LAYOUT_TOKEN, TOPNAV_CONFIG } from 'core';
+import {
+  AUTH_CONFIG,
+  BRAND_CONFIG,
+  LOAN_CONFIG,
+  MenuGroup,
+  ROOT_LAYOUT_TOKEN,
+  TOPNAV_CONFIG,
+} from 'core';
 import { DefaultTopNavLayout, ThemeService, WhiteLabelRoot } from 'white-label';
 
 const TOPNAV_MENUS: readonly MenuGroup[] = [
@@ -70,6 +77,25 @@ const TOPNAV_MENUS: readonly MenuGroup[] = [
     {
       provide: TOPNAV_CONFIG,
       useValue: TOPNAV_MENUS,
+    },
+    {
+      provide: LOAN_CONFIG,
+      useValue: {
+        minAmount: 5000,
+        maxAmount: 100_000,
+        minTermMonths: 6,
+        maxTermMonths: 84,
+        purposes: [
+          'Home Renovation',
+          'Business Investment',
+          'Debt Consolidation',
+          'Travel',
+          'Wedding',
+          'Other',
+        ],
+        incomeVerification: 'payslip-upload' as const,
+        requiresEmployerVerification: true,
+      },
     },
   ],
 })

@@ -1,5 +1,5 @@
+import type { Provider } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { BRAND_CONFIG } from 'core';
 
 import { DefaultHeader } from './default-header';
@@ -9,7 +9,7 @@ describe('DefaultHeader', () => {
     brandName?: string,
     titleOverride?: string,
   ): Promise<ComponentFixture<DefaultHeader>> {
-    const providers: any[] = [provideAnimationsAsync()];
+    const providers: Provider[] = [];
     if (brandName) {
       providers.push({
         provide: BRAND_CONFIG,

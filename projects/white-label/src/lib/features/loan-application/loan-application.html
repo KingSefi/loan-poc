@@ -1,0 +1,245 @@
+@if (!submitted()) {
+  <h1>Apply for a Personal Loan</h1>
+  <p class="subtitle">{{ brandName() }} — Complete all steps to submit your application</p>
+
+  <lib-default-stepper [steps]="loanSteps" [linear]="true">
+    <!-- Step 1: Personal Info -->
+    <ng-template>
+      <form [formGroup]="personalInfoForm">
+        <div class="form-grid">
+          <mat-form-field>
+            <mat-label>Full Name</mat-label>
+            <input matInput formControlName="fullName" />
+            @if (personalInfoForm.controls.fullName.hasError('required')) {
+              <mat-error>Full name is required</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Date of Birth</mat-label>
+            <input matInput [matDatepicker]="dob" formControlName="dateOfBirth" />
+            <mat-datepicker-toggle matIconSuffix [for]="dob" />
+            <mat-datepicker #dob />
+            @if (personalInfoForm.controls.dateOfBirth.hasError('required')) {
+              <mat-error>Date of birth is required</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input matInput type="email" formControlName="email" />
+            @if (personalInfoForm.controls.email.hasError('required')) {
+              <mat-error>Email is required</mat-error>
+            } @else if (personalInfoForm.controls.email.hasError('email')) {
+              <mat-error>Invalid email format</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Phone</mat-label>
+            <input matInput formControlName="phone" />
+            @if (personalInfoForm.controls.phone.hasError('required')) {
+              <mat-error>Phone is required</mat-error>
+            } @else if (personalInfoForm.controls.phone.hasError('pattern')) {
+              <mat-error>Invalid phone number</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field class="full-width">
+            <mat-label>Address</mat-label>
+            <input matInput formControlName="address" />
+            @if (personalInfoForm.controls.address.hasError('required')) {
+              <mat-error>Address is required</mat-error>
+            } @else if (personalInfoForm.controls.address.hasError('minlength')) {
+              <mat-error>Address must be at least 10 characters</mat-error>
+            }
+          </mat-form-field>
+        </div>
+      </form>
+    </ng-template>
+
+    <!-- Step 2: Income Details -->
+    <ng-template>
+      <form [formGroup]="incomeForm">
+        <div class="form-grid">
+          <mat-form-field>
+            <mat-label>Employer Name</mat-label>
+            <input matInput formControlName="employerName" />
+            @if (incomeForm.controls.employerName.hasError('required')) {
+              <mat-error>Employer name is required</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Position</mat-label>
+            <input matInput formControlName="position" />
+            @if (incomeForm.controls.position.hasError('required')) {
+              <mat-error>Position is required</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Annual Salary</mat-label>
+            <span matTextPrefix>$&nbsp;</span>
+            <input matInput type="number" formControlName="annualSalary" />
+            @if (incomeForm.controls.annualSalary.hasError('required')) {
+              <mat-error>Annual salary is required</mat-error>
+            } @else if (incomeForm.controls.annualSalary.hasError('min')) {
+              <mat-error>Salary must be positive</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Years at Current Job</mat-label>
+            <input matInput type="number" formControlName="yearsAtJob" />
+            @if (incomeForm.controls.yearsAtJob.hasError('required')) {
+              <mat-error>Years at job is required</mat-error>
+            } @else if (incomeForm.controls.yearsAtJob.hasError('min')) {
+              <mat-error>Must be 0 or more</mat-error>
+            }
+          </mat-form-field>
+        </div>
+      </form>
+    </ng-template>
+
+    <!-- Step 3: Loan Amount -->
+    <ng-template>
+      <form [formGroup]="loanForm">
+        <div class="form-grid">
+          <div class="slider-field full-width">
+            <label>Loan Amount: {{ loanForm.controls.amount.value | currency }}</label>
+            <mat-slider
+              [min]="config.minAmount"
+              [max]="config.maxAmount"
+              [step]="500"
+              discrete
+            >
+              <input matSliderThumb formControlName="amount" />
+            </mat-slider>
+          </div>
+
+          <mat-form-field>
+            <mat-label>Term (Months)</mat-label>
+            <mat-select formControlName="termMonths">
+              @for (term of termOptions; track term) {
+                <mat-option [value]="term">{{ term }} months</mat-option>
+              }
+            </mat-select>
+            @if (loanForm.controls.termMonths.hasError('required')) {
+              <mat-error>Term is required</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Purpose</mat-label>
+            <mat-select formControlName="purpose">
+              @for (purpose of config.purposes; track purpose) {
+                <mat-option [value]="purpose">{{ purpose }}</mat-option>
+              }
+            </mat-select>
+            @if (loanForm.controls.purpose.hasError('required')) {
+              <mat-error>Purpose is required</mat-error>
+            }
+          </mat-form-field>
+        </div>
+      </form>
+    </ng-template>
+
+    <!-- Step 4: Review & Submit -->
+    <ng-template>
+      <form [formGroup]="reviewForm">
+        <div class="review-section">
+          <h3>Personal Information</h3>
+          <div class="review-grid">
+            <div class="review-item">
+              <span class="review-label">Full Name</span>
+              <span>{{ personalInfoForm.controls.fullName.value }}</span>
+            </div>
+            <div class="review-item">
+              <span class="review-label">Email</span>
+              <span>{{ personalInfoForm.controls.email.value }}</span>
+            </div>
+            <div class="review-item">
+              <span class="review-label">Phone</span>
+              <span>{{ personalInfoForm.controls.phone.value }}</span>
+            </div>
+            <div class="review-item">
+              <span class="review-label">Address</span>
+              <span>{{ personalInfoForm.controls.address.value }}</span>
+            </div>
+          </div>
+
+          <mat-divider />
+
+          <h3>Income Details</h3>
+          <div class="review-grid">
+            <div class="review-item">
+              <span class="review-label">Employer</span>
+              <span>{{ incomeForm.controls.employerName.value }}</span>
+            </div>
+            <div class="review-item">
+              <span class="review-label">Position</span>
+              <span>{{ incomeForm.controls.position.value }}</span>
+            </div>
+            <div class="review-item">
+              <span class="review-label">Annual Salary</span>
+              <span>{{ incomeForm.controls.annualSalary.value | currency }}</span>
+            </div>
+            <div class="review-item">
+              <span class="review-label">Years at Job</span>
+              <span>{{ incomeForm.controls.yearsAtJob.value }}</span>
+            </div>
+          </div>
+
+          <mat-divider />
+
+          <h3>Loan Details</h3>
+          <div class="review-grid">
+            <div class="review-item">
+              <span class="review-label">Amount</span>
+              <span>{{ loanForm.controls.amount.value | currency }}</span>
+            </div>
+            <div class="review-item">
+              <span class="review-label">Term</span>
+              <span>{{ loanForm.controls.termMonths.value }} months</span>
+            </div>
+            <div class="review-item">
+              <span class="review-label">Purpose</span>
+              <span>{{ loanForm.controls.purpose.value }}</span>
+            </div>
+          </div>
+
+          <mat-divider />
+
+          <mat-checkbox formControlName="acceptTerms">
+            I accept the terms and conditions
+          </mat-checkbox>
+
+          <div class="submit-actions">
+            <button
+              mat-flat-button
+              color="primary"
+              [disabled]="reviewForm.invalid"
+              (click)="submit()"
+            >
+              Submit Application
+            </button>
+          </div>
+        </div>
+      </form>
+    </ng-template>
+  </lib-default-stepper>
+} @else {
+  <mat-card class="success-card">
+    <mat-card-content>
+      <mat-icon class="success-icon">check_circle</mat-icon>
+      <h2>Application Submitted!</h2>
+      <p>
+        Thank you, {{ personalInfoForm.controls.fullName.value }}. Your loan application has been
+        received.
+      </p>
+      <p class="ref-number">Reference: {{ referenceNumber() }}</p>
+      <button mat-flat-button color="primary" (click)="startOver()">Start New Application</button>
+    </mat-card-content>
+  </mat-card>
+}

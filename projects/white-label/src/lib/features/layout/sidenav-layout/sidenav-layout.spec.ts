@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter } from '@angular/router';
 import { BRAND_CONFIG, SIDENAV_CONFIG, SidenavSection } from 'core';
 
@@ -26,7 +25,6 @@ describe('DefaultSidenavLayout', () => {
     await TestBed.configureTestingModule({
       imports: [DefaultSidenavLayout],
       providers: [
-        provideAnimationsAsync(),
         provideRouter([]),
         { provide: SIDENAV_CONFIG, useValue: MOCK_SECTIONS },
         {
@@ -46,16 +44,16 @@ describe('DefaultSidenavLayout', () => {
 
   it('renders section headers from config', () => {
     const subheaders = fixture.nativeElement.querySelectorAll('[mat-subheader]');
-    const texts = Array.from(subheaders).map((el: any) => el.textContent.trim());
+    const texts = Array.from(subheaders).map((el) => (el as HTMLElement).textContent?.trim());
     expect(texts).toEqual(['Overview', 'Services']);
   });
 
   it('renders nav items with correct labels', () => {
     const items = fixture.nativeElement.querySelectorAll('a[mat-list-item]');
     expect(items.length).toBe(3);
-    const labels = Array.from(items).map((el: any) => {
-      const span = el.querySelector('span:not(mat-icon)');
-      return span?.textContent.trim();
+    const labels = Array.from(items).map((el) => {
+      const span = (el as HTMLElement).querySelector('span:not(mat-icon)');
+      return span?.textContent?.trim();
     });
     expect(labels).toContain('Dashboard');
     expect(labels).toContain('Accounts');

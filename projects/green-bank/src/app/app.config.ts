@@ -1,8 +1,14 @@
 import { provideHttpClient } from '@angular/common/http';
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter } from '@angular/router';
-import { AUTH_CONFIG, BRAND_CONFIG, ROOT_LAYOUT_TOKEN, SIDENAV_CONFIG, SidenavSection } from 'core';
+import {
+  AUTH_CONFIG,
+  BRAND_CONFIG,
+  LOAN_CONFIG,
+  ROOT_LAYOUT_TOKEN,
+  SIDENAV_CONFIG,
+  SidenavSection,
+} from 'core';
 import { DefaultSidenavLayout } from 'white-label';
 
 import { routes } from './app.routes';
@@ -37,7 +43,6 @@ const SIDENAV_SECTIONS: readonly SidenavSection[] = [
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideAnimationsAsync(),
     provideRouter(routes),
     provideHttpClient(),
     {
@@ -63,6 +68,25 @@ export const appConfig: ApplicationConfig = {
     {
       provide: SIDENAV_CONFIG,
       useValue: SIDENAV_SECTIONS,
+    },
+    {
+      provide: LOAN_CONFIG,
+      useValue: {
+        minAmount: 1000,
+        maxAmount: 50_000,
+        minTermMonths: 12,
+        maxTermMonths: 60,
+        purposes: [
+          'Home Improvement',
+          'Debt Consolidation',
+          'Education',
+          'Medical Expenses',
+          'Vehicle Purchase',
+          'Other',
+        ],
+        incomeVerification: 'self-declared' as const,
+        requiresEmployerVerification: false,
+      },
     },
   ],
 };

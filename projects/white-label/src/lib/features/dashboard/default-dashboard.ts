@@ -1,5 +1,6 @@
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { MatButton } from '@angular/material/button';
 import {
   MatCard,
   MatCardContent,
@@ -10,9 +11,7 @@ import {
 import { MatChip } from '@angular/material/chips';
 import { MatDivider } from '@angular/material/divider';
 import { MatIcon } from '@angular/material/icon';
-
-import { DefaultStepper } from '../stepper/default-stepper';
-import { StepDefinition } from '../stepper/step-definition';
+import { RouterLink } from '@angular/router';
 
 interface AccountSummary {
   label: string;
@@ -41,8 +40,9 @@ interface Transaction {
     MatCardSubtitle,
     MatIcon,
     MatDivider,
+    MatButton,
     MatChip,
-    DefaultStepper,
+    RouterLink,
   ],
   templateUrl: './default-dashboard.html',
   styleUrl: './default-dashboard.scss',
@@ -118,12 +118,5 @@ export class DefaultDashboard {
       type: 'debit',
       category: 'Health',
     },
-  ]);
-
-  readonly loanSteps = signal<StepDefinition[]>([
-    { label: 'Personal Info' },
-    { label: 'Income Details' },
-    { label: 'Loan Amount' },
-    { label: 'Review & Submit' },
   ]);
 }

@@ -1,12 +1,42 @@
+// ─── Keyframes ───────────────────────────────────────────────
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+  0%   { opacity: 0; transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes popIn {
+  0%   { opacity: 0; transform: scale(0); }
+  80%  { transform: scale(1.1); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.03); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(30px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+// ─── Base ────────────────────────────────────────────────────
 :host {
   display: block;
 }
 
+// ─── Hero ───────────────────────────────────────────────────
 .hero {
   margin-bottom: 2rem;
   padding: 2rem;
   border-radius: 16px;
   background: linear-gradient(135deg, rgba(107, 33, 168, 0.15), rgba(107, 33, 168, 0.05));
+  animation: scaleIn 0.6s ease-out both;
 }
 
 .subtitle {
@@ -18,12 +48,16 @@
   font-size: 2.5rem;
   font-weight: 700;
   margin: 0;
+  animation: popIn 0.6s ease-out 0.3s both;
 }
 
+// ─── Section Headings ───────────────────────────────────────
 h2 {
   margin: 1.5rem 0 1rem;
+  animation: fadeInUp 0.4s ease-out both;
 }
 
+// ─── Quick Actions Grid ─────────────────────────────────────
 .actions-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
@@ -33,10 +67,18 @@ h2 {
 
 .action-card {
   cursor: pointer;
-  transition: transform 0.15s;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  animation: fadeInUp 0.4s ease-out both;
 
   &:hover {
-    transform: translateY(-2px);
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  @for $i from 1 through 8 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{0.3 + $i * 0.08}s;
+    }
   }
 
   mat-card-content {
@@ -60,6 +102,7 @@ h2 {
   opacity: 0.55;
 }
 
+// ─── Promo Cards ────────────────────────────────────────────
 .promos-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -72,6 +115,16 @@ h2 {
     height: 40px;
     line-height: 40px;
   }
+
+  > .promo-card {
+    animation: slideInRight 0.5s ease-out both;
+
+    @for $i from 1 through 6 {
+      &:nth-child(#{$i}) {
+        animation-delay: #{0.4 + $i * 0.1}s;
+      }
+    }
+  }
 }
 
 .highlight {
@@ -83,4 +136,21 @@ h2 {
 
 mat-divider {
   margin: 1.5rem 0;
+}
+
+// ─── Loan CTA ───────────────────────────────────────────────
+.loan-cta-card {
+  animation: fadeInUp 0.5s ease-out 0.6s both;
+
+  a[mat-flat-button] {
+    animation: pulse 2s ease-in-out infinite;
+  }
+}
+
+// ─── Reduced Motion ─────────────────────────────────────────
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

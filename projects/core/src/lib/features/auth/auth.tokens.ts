@@ -39,3 +39,15 @@ export const ROOT_LAYOUT_TOKEN = new InjectionToken<Type<unknown>>('ROOT_LAYOUT_
 export const SIDENAV_CONFIG = new InjectionToken<readonly SidenavSection[]>('SIDENAV_CONFIG');
 
 export const TOPNAV_CONFIG = new InjectionToken<readonly MenuGroup[]>('TOPNAV_CONFIG');
+
+export interface LoanConfig {
+  readonly minAmount: number;
+  readonly maxAmount: number;
+  readonly minTermMonths: number;
+  readonly maxTermMonths: number;
+  readonly purposes: readonly string[];
+  readonly incomeVerification: 'self-declared' | 'payslip-upload';
+  readonly requiresEmployerVerification: boolean;
+}
+
+export const LOAN_CONFIG = new InjectionToken<LoanConfig>('LOAN_CONFIG');

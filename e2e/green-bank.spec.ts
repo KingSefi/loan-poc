@@ -20,9 +20,9 @@ test.describe('Green Bank (Dashboard)', () => {
     await expect(rows).toHaveCount(8);
   });
 
-  test('shows loan stepper with 4 steps', async ({ page }) => {
-    const steps = page.locator('.stepper-card .mat-step-header');
-    await expect(steps).toHaveCount(4);
+  test('shows Start Application link', async ({ page }) => {
+    const link = page.locator('a', { hasText: 'Start Application' });
+    await expect(link).toBeVisible();
   });
 
   test('sidenav shows navigation sections', async ({ page }) => {

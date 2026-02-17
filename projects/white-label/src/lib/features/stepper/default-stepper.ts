@@ -37,7 +37,7 @@ import { StepDefinition } from './step-definition';
       (selectedIndexChange)="selectedIndex.set($event)"
     >
       @for (step of steps(); let i = $index; let last = $last; track step.label) {
-        <mat-step [optional]="step.optional ?? false">
+        <mat-step [optional]="step.optional ?? false" [stepControl]="step.stepControl!">
           <ng-template matStepLabel>{{ step.label }}</ng-template>
 
           @if (stepTemplates()[i]) {
@@ -56,13 +56,7 @@ import { StepDefinition } from './step-definition';
       }
     </mat-stepper>
   `,
-  styles: `
-    .stepper-actions {
-      display: flex;
-      gap: 0.5rem;
-      margin-top: 1rem;
-    }
-  `,
+  styleUrl: './default-stepper.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DefaultStepper {

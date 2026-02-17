@@ -9,6 +9,7 @@ export { DefaultHeader } from './lib/features/header/default-header/default-head
 export { DefaultHomePage } from './lib/features/home-page/default-home-page';
 export { DefaultSidenavLayout } from './lib/features/layout/sidenav-layout/sidenav-layout';
 export { DefaultTopNavLayout } from './lib/features/layout/topnav-layout/topnav-layout';
+export { LoanApplication } from './lib/features/loan-application/loan-application';
 export { DefaultStepper } from './lib/features/stepper/default-stepper';
 export type { StepDefinition } from './lib/features/stepper/step-definition';
 export { ThemeSwitch } from './lib/features/theme-switch';

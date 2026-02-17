@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { BRAND_CONFIG } from 'core';
 
 import { ThemeService } from '../services/theme.service';
@@ -13,7 +12,6 @@ describe('ThemeSwitch', () => {
     await TestBed.configureTestingModule({
       imports: [ThemeSwitch],
       providers: [
-        provideAnimationsAsync(),
         { provide: BRAND_CONFIG, useValue: { name: 'Test', primaryColor: '#000', theme: 'light' } },
       ],
     }).compileComponents();

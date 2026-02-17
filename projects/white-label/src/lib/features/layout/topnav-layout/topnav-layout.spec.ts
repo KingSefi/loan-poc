@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter } from '@angular/router';
 import { BRAND_CONFIG, MenuGroup, TOPNAV_CONFIG } from 'core';
 
@@ -24,7 +23,6 @@ describe('DefaultTopNavLayout', () => {
     await TestBed.configureTestingModule({
       imports: [DefaultTopNavLayout],
       providers: [
-        provideAnimationsAsync(),
         provideRouter([]),
         { provide: TOPNAV_CONFIG, useValue: MOCK_MENUS },
         {
@@ -50,8 +48,8 @@ describe('DefaultTopNavLayout', () => {
 
   it('groups with children render dropdown buttons', () => {
     const buttons = fixture.nativeElement.querySelectorAll('.mega-nav button[mat-button]');
-    const dropdownBtn = Array.from(buttons).find((btn: any) =>
-      btn.textContent.includes('Accounts'),
+    const dropdownBtn = Array.from(buttons).find((btn) =>
+      (btn as HTMLElement).textContent?.includes('Accounts'),
     );
     expect(dropdownBtn).toBeTruthy();
     expect((dropdownBtn as HTMLElement).textContent).toContain('arrow_drop_down');

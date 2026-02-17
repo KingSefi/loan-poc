@@ -1,6 +1,5 @@
 import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 import { DefaultStepper } from './default-stepper';
 import { StepDefinition } from './step-definition';
@@ -34,7 +33,6 @@ describe('DefaultStepper', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [StepperHost],
-      providers: [provideAnimationsAsync()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(StepperHost);
@@ -52,7 +50,7 @@ describe('DefaultStepper', () => {
 
   it('displays step labels', () => {
     const labels = fixture.nativeElement.querySelectorAll('.mat-step-text-label');
-    const texts = Array.from(labels).map((el: any) => el.textContent.trim());
+    const texts = Array.from(labels).map((el) => (el as HTMLElement).textContent?.trim());
     expect(texts).toEqual(['Step 1', 'Step 2', 'Step 3']);
   });
 
@@ -70,9 +68,6 @@ describe('DefaultStepper', () => {
   });
 
   it('Back button not visible on first step', () => {
-    const activeStepContent = fixture.nativeElement.querySelector(
-      '.mat-vertical-stepper-content[aria-expanded="true"], .mat-horizontal-stepper-content:not([style*="display: none"])',
-    );
     // On first step, the visible step content should not contain a Back button
     const stepperActions = fixture.nativeElement.querySelectorAll('.stepper-actions');
     const firstActions = stepperActions[0];

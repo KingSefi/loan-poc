@@ -91,7 +91,6 @@ This is where your brand lives. You choose your layout, your nav structure, your
 ```typescript
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter } from '@angular/router';
 import { AUTH_CONFIG, BRAND_CONFIG, ROOT_LAYOUT_TOKEN, SIDENAV_CONFIG, SidenavSection } from 'core';
 import { DefaultSidenavLayout } from 'white-label';
@@ -118,7 +117,6 @@ const SIDENAV_SECTIONS: readonly SidenavSection[] = [
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideAnimationsAsync(),
     provideRouter(routes),
     provideHttpClient(),
     { provide: BRAND_CONFIG, useValue: { name: 'BlueBank', primaryColor: '#1e40af', theme: 'light' as const } },

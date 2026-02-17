@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { provideRouter } from '@angular/router';
 
 import { DefaultDashboard } from './default-dashboard';
 
@@ -9,7 +9,7 @@ describe('DefaultDashboard', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [DefaultDashboard],
-      providers: [provideAnimationsAsync()],
+      providers: [provideRouter([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(DefaultDashboard);
@@ -30,9 +30,12 @@ describe('DefaultDashboard', () => {
     expect(rows.length).toBe(8);
   });
 
-  it('renders loan stepper with 4 steps', () => {
-    const stepHeaders = fixture.nativeElement.querySelectorAll('.stepper-card .mat-step-header');
-    expect(stepHeaders.length).toBe(4);
+  it('renders Start Application link', () => {
+    const links = fixture.nativeElement.querySelectorAll('a');
+    const startLink = Array.from(links).find((el) =>
+      (el as HTMLElement).textContent?.includes('Start Application'),
+    );
+    expect(startLink).toBeTruthy();
   });
 
   it('displays account balances as currency', () => {
