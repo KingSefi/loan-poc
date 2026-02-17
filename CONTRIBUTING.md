@@ -9,6 +9,7 @@ white-label-poc/
 │   ├── white-label/           # Shared UI: layouts, pages, components
 │   ├── green-bank/            # Brand app: config-only (sidenav + light theme)
 │   ├── purple-bank/           # Brand app: config-only (topnav + dark theme)
+│   ├── blue-bank/             # Brand app: config + 1 custom component (topnav + wizard + simulator)
 │   └── dev-shell/             # Tooling: side-by-side brand preview
 └── tsconfig.json              # Source paths for hot reload
 ```
@@ -502,6 +503,79 @@ Key distinction: if it touches HTTP, data, or auth — it goes in **core**. If i
 
 ---
 
+## How To: Add a Guided Wizard Flow
+
+The wizard system supports **config-driven steps** (shared defaults) with **brand-specific overrides** (custom components). Blue Bank demonstrates this pattern: steps 2-5 use shared default components, while step 1 is a brand-specific override.
+
+### Step 1 — Define wizard steps in `app.config.ts`
+
+```typescript
+import { WIZARD_STEPS, WIZARD_STEP_OVERRIDES } from 'core';
+import {
+  DefaultProfileStep,
+  DefaultBudgetStep,
+  DefaultInsuranceStep,
+  DefaultPropositionStep,
+} from 'white-label';
+import { MyCustomProjectStep } from './features/my-custom-project-step';
+
+// In providers array:
+{
+  provide: WIZARD_STEPS,
+  useValue: [
+    { id: 'project', label: 'Your Project', component: MyCustomProjectStep },
+    { id: 'profile', label: 'Your Profile', component: DefaultProfileStep },
+    { id: 'budget', label: 'Your Budget', component: DefaultBudgetStep },
+    { id: 'insurance', label: 'Your Insurance', component: DefaultInsuranceStep },
+    { id: 'proposition', label: 'Our Proposals', component: DefaultPropositionStep },
+  ],
+},
+// Optional: override specific steps with brand-custom components
+{
+  provide: WIZARD_STEP_OVERRIDES,
+  useValue: { project: MyCustomProjectStep },
+},
+```
+
+### Step 2 — Add the route
+
+```typescript
+{
+  path: 'mortgage/apply',
+  loadComponent: () => import('white-label').then((m) => m.GuidedWizard),
+},
+```
+
+### Step 3 — (Optional) Create a custom step component
+
+Custom step components should implement the `WizardStep` interface and use shared UI primitives:
+
+```typescript
+import { CardSelector, QuestionBlock, ToggleSelector, type WizardStep } from 'white-label';
+
+@Component({ /* ... */ })
+export class MyCustomProjectStep implements WizardStep {
+  readonly form = new FormGroup({ /* ... */ });
+  // Use CardSelector, ToggleSelector, QuestionBlock for consistent UI
+}
+```
+
+### Step 4 — Configure step behavior via DI tokens
+
+Each default step reads optional config tokens with sensible defaults:
+
+```typescript
+{ provide: PROFILE_STEP_CONFIG, useValue: { borrowerModes: ['Seul', 'À deux'], ... } },
+{ provide: BUDGET_STEP_CONFIG, useValue: { revenueFields: [...], chargeFields: [...] } },
+{ provide: INSURANCE_STEP_CONFIG, useValue: { coverageOptions: [...], toggleQuestions: [...] } },
+```
+
+### Key pattern
+
+The `GuidedWizard` orchestrator resolves steps at runtime: for each step in `WIZARD_STEPS`, it checks `WIZARD_STEP_OVERRIDES` for a matching `id`. If found, it renders the override component; otherwise, it renders the default. This means brand apps can override any subset of steps while inheriting the rest.
+
+---
+
 ## Available DI Tokens
 
 | Token | Type | Library | Purpose |
@@ -511,6 +585,12 @@ Key distinction: if it touches HTTP, data, or auth — it goes in **core**. If i
 | `ROOT_LAYOUT_TOKEN` | `Type<unknown>` | core | Which layout component to render (sidenav or topnav) |
 | `SIDENAV_CONFIG` | `readonly SidenavSection[]` | core | Navigation sections for sidenav layout |
 | `TOPNAV_CONFIG` | `readonly MenuGroup[]` | core | Menu groups for topnav layout |
+| `WIZARD_STEPS` | `readonly WizardStepConfig[]` | core | Ordered wizard step definitions (id, label, component) |
+| `WIZARD_STEP_OVERRIDES` | `Record<string, Type<unknown>>` | core | Maps step id to brand-custom override component |
+| `PROFILE_STEP_CONFIG` | `ProfileStepConfig` | core | Borrower modes, fields, residence options |
+| `BUDGET_STEP_CONFIG` | `BudgetStepConfig` | core | Revenue/charge field definitions |
+| `INSURANCE_STEP_CONFIG` | `InsuranceStepConfig` | core | Coverage options, toggle questions |
+| `SIMULATOR_CONFIG` | `SimulatorConfig` | core | Project types, slider ranges for loan simulator |
 
 ## Available White-Label Components
 
@@ -523,6 +603,17 @@ Key distinction: if it touches HTTP, data, or auth — it goes in **core**. If i
 | `DefaultDashboard` | `lib-default-dashboard` | Dashboard page with accounts, transactions, stepper |
 | `DefaultHomePage` | `lib-default-home-page` | Home page with hero, quick actions, promo offers |
 | `DefaultStepper` | `lib-default-stepper` | Reusable Material stepper with projected content |
+| `GuidedWizard` | `lib-guided-wizard` | Config-driven multi-step wizard with override support |
+| `LoanSimulator` | `lib-loan-simulator` | Loan simulator with linked sliders |
+| `DefaultProfileStep` | `lib-profile-step` | Wizard step: borrower profile form |
+| `DefaultBudgetStep` | `lib-budget-step` | Wizard step: revenues & charges with computed totals |
+| `DefaultInsuranceStep` | `lib-insurance-step` | Wizard step: insurance coverage options |
+| `DefaultPropositionStep` | `lib-proposition-step` | Wizard step: result/confirmation page |
+| `CardSelector` | `lib-card-selector` | Shared primitive: selectable card grid |
+| `ToggleSelector` | `lib-toggle-selector` | Shared primitive: horizontal button toggle group |
+| `QuestionBlock` | `lib-question-block` | Shared primitive: labeled question with animated reveal |
+| `DynamicList` | `lib-dynamic-list` | Shared primitive: add/remove list of form items |
+| `LinkedSliders` | `lib-linked-sliders` | Shared primitive: interdependent amount/monthly/duration sliders |
 | `ThemeSwitch` | `lib-theme-switch` | Dark/light mode toggle |
 
 ## CI Pipeline
@@ -534,6 +625,7 @@ ng build core
 ng build white-label
 ng build green-bank --configuration production
 ng build purple-bank --configuration production
+ng build blue-bank --configuration production
 ng build dev-shell --configuration production
 ng test core
 ng test white-label

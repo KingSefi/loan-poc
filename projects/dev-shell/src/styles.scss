@@ -4,6 +4,10 @@ $green-theme: mat.define-theme((
   color: (
     theme-type: light,
     primary: mat.$green-palette,
+    use-system-variables: true,
+  ),
+  typography: (
+    use-system-variables: true,
   ),
 ));
 
@@ -11,6 +15,10 @@ $green-dark-theme: mat.define-theme((
   color: (
     theme-type: dark,
     primary: mat.$green-palette,
+    use-system-variables: true,
+  ),
+  typography: (
+    use-system-variables: true,
   ),
 ));
 
@@ -18,6 +26,10 @@ $purple-theme: mat.define-theme((
   color: (
     theme-type: dark,
     primary: mat.$violet-palette,
+    use-system-variables: true,
+  ),
+  typography: (
+    use-system-variables: true,
   ),
 ));
 
@@ -25,27 +37,74 @@ $purple-light-theme: mat.define-theme((
   color: (
     theme-type: light,
     primary: mat.$violet-palette,
+    use-system-variables: true,
+  ),
+  typography: (
+    use-system-variables: true,
+  ),
+));
+
+$blue-theme: mat.define-theme((
+  color: (
+    theme-type: light,
+    primary: mat.$azure-palette,
+    tertiary: mat.$cyan-palette,
+    use-system-variables: true,
+  ),
+  typography: (
+    use-system-variables: true,
+  ),
+));
+
+$blue-dark-theme: mat.define-theme((
+  color: (
+    theme-type: dark,
+    primary: mat.$azure-palette,
+    tertiary: mat.$cyan-palette,
+    use-system-variables: true,
+  ),
+  typography: (
+    use-system-variables: true,
   ),
 ));
 
 html {
   @include mat.all-component-themes($green-theme);
+  @include mat.system-level-colors($green-theme);
+  @include mat.system-level-typography($green-theme);
+  @include mat.system-level-elevation($green-theme);
+  @include mat.system-level-shape($green-theme);
   color-scheme: light;
 }
 
 html.dark-theme {
-  @include mat.all-component-colors($green-dark-theme);
+  @include mat.all-component-themes($green-dark-theme);
+  @include mat.system-level-colors($green-dark-theme);
   color-scheme: dark;
 }
 
 html.purple-brand {
-  @include mat.all-component-colors($purple-theme);
+  @include mat.all-component-themes($purple-theme);
+  @include mat.system-level-colors($purple-theme);
   color-scheme: dark;
 }
 
 html.purple-brand.light-theme {
-  @include mat.all-component-colors($purple-light-theme);
+  @include mat.all-component-themes($purple-light-theme);
+  @include mat.system-level-colors($purple-light-theme);
   color-scheme: light;
+}
+
+html.blue-brand {
+  @include mat.all-component-themes($blue-theme);
+  @include mat.system-level-colors($blue-theme);
+  color-scheme: light;
+}
+
+html.blue-brand.dark-theme {
+  @include mat.all-component-themes($blue-dark-theme);
+  @include mat.system-level-colors($blue-dark-theme);
+  color-scheme: dark;
 }
 
 body {

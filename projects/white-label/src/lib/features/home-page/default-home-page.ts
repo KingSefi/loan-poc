@@ -12,7 +12,7 @@ import {
 import { MatDivider } from '@angular/material/divider';
 import { MatIcon } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
-import { BRAND_CONFIG } from 'core';
+import { BRAND_CONFIG, LOAN_CONFIG } from 'core';
 
 interface QuickAction {
   icon: string;
@@ -49,8 +49,10 @@ interface PromoOffer {
 })
 export class DefaultHomePage {
   private readonly brandConfig = inject(BRAND_CONFIG, { optional: true });
+  private readonly loanConfig = inject(LOAN_CONFIG, { optional: true });
 
   readonly brandName = computed(() => this.brandConfig?.name ?? 'App');
+  readonly showLoanCta = !!this.loanConfig;
   readonly netWorth = signal(184_620.45);
 
   readonly quickActions = signal<QuickAction[]>([

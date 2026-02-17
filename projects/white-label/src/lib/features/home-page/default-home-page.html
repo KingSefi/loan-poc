@@ -40,19 +40,21 @@
   }
 </section>
 
-<mat-divider></mat-divider>
+@if (showLoanCta) {
+  <mat-divider></mat-divider>
 
-<h2>Apply for a Personal Loan</h2>
-<mat-card class="loan-cta-card">
-  <mat-card-header>
-    <mat-icon mat-card-avatar>request_quote</mat-icon>
-    <mat-card-title>Personal Loan</mat-card-title>
-    <mat-card-subtitle>Quick application in 4 easy steps</mat-card-subtitle>
-  </mat-card-header>
-  <mat-card-content>
-    <p>Get a personal loan with competitive rates. Complete your application online in minutes.</p>
-  </mat-card-content>
-  <mat-card-actions>
-    <a mat-flat-button color="primary" routerLink="../loans/apply">Start Application</a>
-  </mat-card-actions>
-</mat-card>
+  <h2>Apply for a Personal Loan</h2>
+  <mat-card class="loan-cta-card">
+    <mat-card-header>
+      <mat-icon mat-card-avatar>request_quote</mat-icon>
+      <mat-card-title>Personal Loan</mat-card-title>
+      <mat-card-subtitle>Quick application in 4 easy steps</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p>Get a personal loan with competitive rates. Complete your application online in minutes.</p>
+    </mat-card-content>
+    <mat-card-actions>
+      <a mat-flat-button color="primary" routerLink="../loans/apply">Start Application</a>
+    </mat-card-actions>
+  </mat-card>
+}

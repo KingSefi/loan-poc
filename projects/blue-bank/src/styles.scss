@@ -1,0 +1,45 @@
+@use '@angular/material' as mat;
+
+$blue-theme: mat.define-theme((
+  color: (
+    theme-type: light,
+    primary: mat.$azure-palette,
+    tertiary: mat.$cyan-palette,
+    use-system-variables: true,
+  ),
+  typography: (
+    use-system-variables: true,
+  ),
+));
+
+$blue-dark-theme: mat.define-theme((
+  color: (
+    theme-type: dark,
+    primary: mat.$azure-palette,
+    tertiary: mat.$cyan-palette,
+    use-system-variables: true,
+  ),
+  typography: (
+    use-system-variables: true,
+  ),
+));
+
+html {
+  @include mat.all-component-themes($blue-theme);
+  @include mat.system-level-colors($blue-theme);
+  @include mat.system-level-typography($blue-theme);
+  @include mat.system-level-elevation($blue-theme);
+  @include mat.system-level-shape($blue-theme);
+  color-scheme: light;
+}
+
+html.dark-theme {
+  @include mat.all-component-colors($blue-dark-theme);
+  @include mat.system-level-colors($blue-dark-theme);
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

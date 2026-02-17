@@ -33,5 +33,25 @@ export const routes: Routes = [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
     ],
   },
+  {
+    path: 'blue',
+    loadComponent: () =>
+      import('./wrappers/blue-wrapper/blue-wrapper.component').then((m) => m.BlueWrapper),
+    children: [
+      {
+        path: 'home',
+        loadComponent: () => import('white-label').then((m) => m.DefaultHomePage),
+      },
+      {
+        path: 'mortgage/apply',
+        loadComponent: () => import('white-label').then((m) => m.GuidedWizard),
+      },
+      {
+        path: 'simulator',
+        loadComponent: () => import('white-label').then((m) => m.LoanSimulator),
+      },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
+    ],
+  },
   { path: '', redirectTo: 'green', pathMatch: 'full' },
 ];

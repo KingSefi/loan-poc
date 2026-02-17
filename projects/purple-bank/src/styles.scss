@@ -4,6 +4,10 @@ $purple-theme: mat.define-theme((
   color: (
     theme-type: dark,
     primary: mat.$violet-palette,
+    use-system-variables: true,
+  ),
+  typography: (
+    use-system-variables: true,
   ),
 ));
 
@@ -11,16 +15,25 @@ $purple-light-theme: mat.define-theme((
   color: (
     theme-type: light,
     primary: mat.$violet-palette,
+    use-system-variables: true,
+  ),
+  typography: (
+    use-system-variables: true,
   ),
 ));
 
 html {
   @include mat.all-component-themes($purple-theme);
+  @include mat.system-level-colors($purple-theme);
+  @include mat.system-level-typography($purple-theme);
+  @include mat.system-level-elevation($purple-theme);
+  @include mat.system-level-shape($purple-theme);
   color-scheme: dark;
 }
 
 html.light-theme {
   @include mat.all-component-colors($purple-light-theme);
+  @include mat.system-level-colors($purple-light-theme);
   color-scheme: light;
 }
 

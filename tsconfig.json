@@ -56,6 +56,12 @@
       "path": "./projects/purple-bank/tsconfig.spec.json"
     },
     {
+      "path": "./projects/blue-bank/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/blue-bank/tsconfig.spec.json"
+    },
+    {
       "path": "./projects/dev-shell/tsconfig.app.json"
     },
     {

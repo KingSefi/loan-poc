@@ -1,0 +1,107 @@
+<div class="blue-project-step">
+  <h2>Votre Projet</h2>
+
+  <lib-question-block label="Quel est votre projet ?">
+    <lib-card-selector
+      [options]="projectTypeCards"
+      [(selected)]="projectType"
+      ariaLabel="Type de projet"
+    />
+  </lib-question-block>
+
+  <lib-question-block label="Type de bien" [visible]="showPropertyType()">
+    <lib-card-selector
+      [options]="propertyTypeCards"
+      [(selected)]="propertyType"
+      ariaLabel="Type de bien"
+    />
+  </lib-question-block>
+
+  <lib-question-block label="État du bien" [visible]="showSubType()">
+    <lib-toggle-selector
+      [options]="subTypeOptions"
+      [(selected)]="subType"
+      ariaLabel="État du bien"
+    />
+  </lib-question-block>
+
+  <lib-question-block label="Usage du bien" [visible]="showUsage()">
+    <lib-card-selector
+      [options]="usageCards"
+      [(selected)]="usage"
+      ariaLabel="Usage du bien"
+    />
+  </lib-question-block>
+
+  <lib-question-block label="Avez-vous trouvé votre bien ?" [visible]="showFoundProperty()">
+    <lib-toggle-selector
+      [options]="yesNoOptions"
+      [(selected)]="foundProperty"
+      ariaLabel="Bien trouvé"
+    />
+  </lib-question-block>
+
+  <lib-question-block label="Localisation du bien" [visible]="showLocation()">
+    <form [formGroup]="locationForm" class="form-grid">
+      <mat-form-field class="full-width">
+        <mat-label>Adresse</mat-label>
+        <input matInput formControlName="address" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Code postal</mat-label>
+        <input matInput formControlName="postalCode" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Ville</mat-label>
+        <input matInput formControlName="city" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Pays</mat-label>
+        <input matInput formControlName="country" />
+      </mat-form-field>
+    </form>
+  </lib-question-block>
+
+  <lib-question-block label="Votre budget" [visible]="showFinancials()">
+    <div class="financial-grid">
+      <mat-form-field>
+        <mat-label>Valeur du bien</mat-label>
+        <input matInput type="number" [value]="propertyValue()" (input)="propertyValue.set(+$any($event.target).value)" />
+        <span matTextSuffix>€</span>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Montant des travaux</mat-label>
+        <input matInput type="number" [value]="initialAmount()" (input)="initialAmount.set(+$any($event.target).value)" />
+        <span matTextSuffix>€</span>
+      </mat-form-field>
+
+      @if (projectType() === 'racheter') {
+        <mat-form-field>
+          <mat-label>Capital restant à racheter</mat-label>
+          <input matInput type="number" [value]="capitalToRepay()" (input)="capitalToRepay.set(+$any($event.target).value)" />
+          <span matTextSuffix>€</span>
+        </mat-form-field>
+      }
+
+      <mat-form-field>
+        <mat-label>Apport personnel</mat-label>
+        <input matInput type="number" [value]="contribution()" (input)="contribution.set(+$any($event.target).value)" />
+        <span matTextSuffix>€</span>
+      </mat-form-field>
+    </div>
+
+    <mat-card class="summary-card">
+      <mat-card-content>
+        <div class="summary-row">
+          <span>Coût global du projet</span>
+          <strong>{{ totalCost() | currency:'EUR':'symbol':'1.0-0' }}</strong>
+        </div>
+        <div class="summary-row highlight">
+          <span>Besoin de financement</span>
+          <strong>{{ financingNeed() | currency:'EUR':'symbol':'1.0-0' }}</strong>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </lib-question-block>
+</div>

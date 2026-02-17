@@ -4,6 +4,10 @@ $green-theme: mat.define-theme((
   color: (
     theme-type: light,
     primary: mat.$green-palette,
+    use-system-variables: true,
+  ),
+  typography: (
+    use-system-variables: true,
   ),
 ));
 
@@ -11,16 +15,25 @@ $green-dark-theme: mat.define-theme((
   color: (
     theme-type: dark,
     primary: mat.$green-palette,
+    use-system-variables: true,
+  ),
+  typography: (
+    use-system-variables: true,
   ),
 ));
 
 html {
   @include mat.all-component-themes($green-theme);
+  @include mat.system-level-colors($green-theme);
+  @include mat.system-level-typography($green-theme);
+  @include mat.system-level-elevation($green-theme);
+  @include mat.system-level-shape($green-theme);
   color-scheme: light;
 }
 
 html.dark-theme {
   @include mat.all-component-colors($green-dark-theme);
+  @include mat.system-level-colors($green-dark-theme);
   color-scheme: dark;
 }
 
