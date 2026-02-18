@@ -24,7 +24,7 @@ white-label-poc/
 |-------|----------|----------------|
 | **core** | Interfaces, DI tokens, services (business logic) | Components, templates, styles |
 | **white-label** | Default UI components, layouts, pages, services | Business logic, brand-specific config |
-| **Brand apps** | DI provider values, Material theme SCSS | Components, templates, shared logic |
+| **Brand apps** | DI provider values, Material theme SCSS, brand-specific override components | Shared logic, components used by more than one brand |
 | **dev-shell** | Brand wrappers for side-by-side preview | Production code (never imported by brand apps) |
 
 ### Angular Coding Rules
@@ -90,10 +90,17 @@ This is where your brand lives. You choose your layout, your nav structure, your
 **Example with sidenav layout (like green-bank):**
 
 ```typescript
-import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
+import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { AUTH_CONFIG, BRAND_CONFIG, ROOT_LAYOUT_TOKEN, SIDENAV_CONFIG, SidenavSection } from 'core';
+import {
+  AUTH_CONFIG,
+  BRAND_CONFIG,
+  LOAN_CONFIG,
+  ROOT_LAYOUT_TOKEN,
+  SIDENAV_CONFIG,
+  SidenavSection,
+} from 'core';
 import { DefaultSidenavLayout } from 'white-label';
 
 import { routes } from './app.routes';
@@ -104,13 +111,23 @@ const SIDENAV_SECTIONS: readonly SidenavSection[] = [
     items: [
       { icon: 'dashboard', label: 'Dashboard', route: '/dashboard' },
       { icon: 'account_balance', label: 'Accounts', route: '/accounts' },
+      { icon: 'receipt_long', label: 'Transactions', route: '/transactions' },
     ],
   },
   {
     header: 'Services',
     items: [
+      { icon: 'swap_horiz', label: 'Transfers', route: '/transfers' },
       { icon: 'payment', label: 'Payments', route: '/payments' },
       { icon: 'request_quote', label: 'Loans', route: '/loans' },
+      { icon: 'credit_card', label: 'Cards', route: '/cards' },
+    ],
+  },
+  {
+    header: 'Settings',
+    items: [
+      { icon: 'person', label: 'Profile', route: '/profile' },
+      { icon: 'security', label: 'Security', route: '/security' },
     ],
   },
 ];
@@ -120,10 +137,22 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideHttpClient(),
-    { provide: BRAND_CONFIG, useValue: { name: 'BlueBank', primaryColor: '#1e40af', theme: 'light' as const } },
-    { provide: AUTH_CONFIG, useValue: { provider: 'github' as const, sessionDurationSeconds: 3600, loginUrl: '/api/auth/login' } },
+    { provide: BRAND_CONFIG, useValue: { name: 'GreenBank', primaryColor: '#0f5132', theme: 'light' as const } },
+    { provide: AUTH_CONFIG, useValue: { provider: 'google' as const, sessionDurationSeconds: 3600, loginUrl: '/api/auth/login' } },
     { provide: ROOT_LAYOUT_TOKEN, useValue: DefaultSidenavLayout },
     { provide: SIDENAV_CONFIG, useValue: SIDENAV_SECTIONS },
+    {
+      provide: LOAN_CONFIG,
+      useValue: {
+        minAmount: 1000,
+        maxAmount: 50_000,
+        minTermMonths: 12,
+        maxTermMonths: 60,
+        purposes: ['Home Improvement', 'Debt Consolidation', 'Education', 'Medical Expenses', 'Vehicle Purchase', 'Other'],
+        incomeVerification: 'self-declared' as const,
+        requiresEmployerVerification: false,
+      },
+    },
   ],
 };
 ```
@@ -131,30 +160,47 @@ export const appConfig: ApplicationConfig = {
 **Example with topnav layout (like purple-bank):**
 
 ```typescript
-import { AUTH_CONFIG, BRAND_CONFIG, MenuGroup, ROOT_LAYOUT_TOKEN, TOPNAV_CONFIG } from 'core';
+import {
+  AUTH_CONFIG,
+  BRAND_CONFIG,
+  LOAN_CONFIG,
+  MenuGroup,
+  ROOT_LAYOUT_TOKEN,
+  TOPNAV_CONFIG,
+} from 'core';
 import { DefaultTopNavLayout } from 'white-label';
 
 const TOPNAV_MENUS: readonly MenuGroup[] = [
   { icon: 'home', label: 'Home', route: '/home' },
   {
-    icon: 'account_balance', label: 'Accounts',
+    icon: 'account_balance',
+    label: 'Accounts',
     children: [
       { icon: 'account_balance_wallet', label: 'Checking' },
       { icon: 'savings', label: 'Savings' },
+      { icon: 'credit_card', label: 'Credit Cards' },
+      { icon: 'account_balance', label: 'Certificates of Deposit' },
     ],
   },
   {
-    icon: 'help_outline', label: 'Support',
+    icon: 'payment',
+    label: 'Payments',
     children: [
-      { icon: 'chat', label: 'Live Chat' },
-      { icon: 'phone', label: 'Call Us' },
+      { icon: 'swap_horiz', label: 'Transfer Funds' },
+      { icon: 'send', label: 'Send Money' },
+      { icon: 'receipt', label: 'Pay Bills' },
+      { icon: 'schedule', label: 'Scheduled Payments' },
     ],
   },
+  // ... more menu groups (Invest, Loans, Support)
 ];
 
 // In providers array:
+{ provide: BRAND_CONFIG, useValue: { name: 'PurpleBank', primaryColor: '#6b21a8', theme: 'dark' as const } },
+{ provide: AUTH_CONFIG, useValue: { provider: 'microsoft' as const, sessionDurationSeconds: 7200, loginUrl: '/api/auth/login' } },
 { provide: ROOT_LAYOUT_TOKEN, useValue: DefaultTopNavLayout },
 { provide: TOPNAV_CONFIG, useValue: TOPNAV_MENUS },
+{ provide: LOAN_CONFIG, useValue: { /* ... loan config ... */ } },
 ```
 
 ### Step 4 — `app.routes.ts`
@@ -168,6 +214,10 @@ export const routes: Routes = [
   {
     path: 'dashboard',
     loadComponent: () => import('white-label').then((m) => m.DefaultDashboard),
+  },
+  {
+    path: 'loans/apply',
+    loadComponent: () => import('white-label').then((m) => m.LoanApplication),
   },
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
 ];
@@ -478,10 +528,11 @@ export class ThemeService {
   readonly brandClass = signal<string | null>(null);
 
   constructor() {
-    effect((onCleanup) => {
+    effect(() => {
       const dark = this.isDark();
-      document.documentElement.classList.toggle('dark-theme', dark);
-      document.documentElement.classList.toggle('light-theme', !dark);
+      const doc = document.documentElement;
+      doc.classList.toggle('dark-theme', dark);
+      doc.classList.toggle('light-theme', !dark);
     });
 
     effect((onCleanup) => {
@@ -590,6 +641,7 @@ The `GuidedWizard` orchestrator resolves steps at runtime: for each step in `WIZ
 | `PROFILE_STEP_CONFIG` | `ProfileStepConfig` | core | Borrower modes, fields, residence options |
 | `BUDGET_STEP_CONFIG` | `BudgetStepConfig` | core | Revenue/charge field definitions |
 | `INSURANCE_STEP_CONFIG` | `InsuranceStepConfig` | core | Coverage options, toggle questions |
+| `LOAN_CONFIG` | `LoanConfig` | core | Loan amount/term ranges, purposes, income verification type |
 | `SIMULATOR_CONFIG` | `SimulatorConfig` | core | Project types, slider ranges for loan simulator |
 
 ## Available White-Label Components
@@ -604,6 +656,7 @@ The `GuidedWizard` orchestrator resolves steps at runtime: for each step in `WIZ
 | `DefaultHomePage` | `lib-default-home-page` | Home page with hero, quick actions, promo offers |
 | `DefaultStepper` | `lib-default-stepper` | Reusable Material stepper with projected content |
 | `GuidedWizard` | `lib-guided-wizard` | Config-driven multi-step wizard with override support |
+| `LoanApplication` | `lib-loan-application` | Multi-step loan application form (reads `LOAN_CONFIG`) |
 | `LoanSimulator` | `lib-loan-simulator` | Loan simulator with linked sliders |
 | `DefaultProfileStep` | `lib-profile-step` | Wizard step: borrower profile form |
 | `DefaultBudgetStep` | `lib-budget-step` | Wizard step: revenues & charges with computed totals |

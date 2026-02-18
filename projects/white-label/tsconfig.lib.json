@@ -6,7 +6,10 @@
     "outDir": "../../out-tsc/lib",
     "declaration": true,
     "declarationMap": true,
-    "types": []
+    "types": [],
+    "paths": {
+      "core": ["../../dist/core"]
+    }
   },
   "include": [
     "src/**/*.ts"

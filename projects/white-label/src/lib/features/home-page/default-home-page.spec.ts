@@ -1,18 +1,34 @@
 import type { EnvironmentProviders, Provider } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
-import { BRAND_CONFIG } from 'core';
+import { BRAND_CONFIG, LOAN_CONFIG, LoanConfig } from 'core';
 
 import { DefaultHomePage } from './default-home-page';
 
+const MOCK_LOAN_CONFIG: LoanConfig = {
+  minAmount: 1000,
+  maxAmount: 50000,
+  minTermMonths: 6,
+  maxTermMonths: 60,
+  purposes: ['Personal', 'Home Improvement'],
+  incomeVerification: 'self-declared',
+  requiresEmployerVerification: false,
+};
+
 describe('DefaultHomePage', () => {
-  async function setup(brandName?: string): Promise<ComponentFixture<DefaultHomePage>> {
+  async function setup(options?: {
+    brandName?: string;
+    loanConfig?: LoanConfig;
+  }): Promise<ComponentFixture<DefaultHomePage>> {
     const providers: (Provider | EnvironmentProviders)[] = [provideRouter([])];
-    if (brandName) {
+    if (options?.brandName) {
       providers.push({
         provide: BRAND_CONFIG,
-        useValue: { name: brandName, primaryColor: '#000', theme: 'dark' },
+        useValue: { name: options.brandName, primaryColor: '#000', theme: 'dark' },
       });
+    }
+    if (options?.loanConfig) {
+      providers.push({ provide: LOAN_CONFIG, useValue: options.loanConfig });
     }
 
     await TestBed.configureTestingModule({
@@ -37,7 +53,7 @@ describe('DefaultHomePage', () => {
   });
 
   it('shows brand name when BRAND_CONFIG provided', async () => {
-    const fixture = await setup('PurpleBank');
+    const fixture = await setup({ brandName: 'PurpleBank' });
     const hero = fixture.nativeElement.querySelector('.hero');
     expect(hero.textContent).toContain('Welcome to PurpleBank');
   });
@@ -61,7 +77,7 @@ describe('DefaultHomePage', () => {
   });
 
   it('renders Start Application link', async () => {
-    const fixture = await setup();
+    const fixture = await setup({ loanConfig: MOCK_LOAN_CONFIG });
     const links = fixture.nativeElement.querySelectorAll('a');
     const startLink = Array.from(links).find((el) =>
       (el as HTMLElement).textContent?.includes('Start Application'),
